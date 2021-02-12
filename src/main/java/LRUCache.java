@@ -38,7 +38,7 @@ class Node{
     Node(int key, int val){
         
      this.key = key;
-     this.val = val;
+     this.val = val;  // why both key and value are stored in the node? see below code for further details
          
     }
     
@@ -94,7 +94,7 @@ public class LRUCache {
             if(numOfItems+1 > capacity){  // adding this new node reaches capacity
                 
                 Node tail_node_to_removed = dummyTail.prev; 
-                map.remove(tail_node_to_removed.key); // remove the tail Node from the map
+                map.remove(tail_node_to_removed.key); // remove the tail Node from the map. Reason: why have both key, val stored in Node instead of just val. If we just store val in the Node then; See this line. if cache contains - {1 = 2, 2= 3, 3= 4}, then if we want to delete the node{3 = 4} having key as 3. But we would have been storing just val - 4 in node without the key. And then we would have been trying to do map.remove(tail_node_to_removed.val) => map.remove(4) which did not exist in the cache at all, thereby not removing any tail nodes at all. 
                 changeTailNode(dummyTail.prev);
             }
             
